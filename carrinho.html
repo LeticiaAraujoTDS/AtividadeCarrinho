@@ -82,7 +82,7 @@
             botaoRemover.classList.add('botao-remover');
             botaoRemover.addEventListener('click', () => {
                 itemCarrinho.remove(); // remove o item da interface
-                carrinho = carrinho.filter(p => p.nome !== itemLista.nome); // remove o item do array de carrinho
+                carrinho = carrinho.filter(p => p.nome !== itemLista.nome); // remove o item do array de carrinho, e devolve o array sem o item que foi clicado para remover
                 salvarCarrinho();
                 atualizarTotal();
                 contador.textContent = calcularTotalItens();
@@ -105,11 +105,11 @@
         function atualizarTotal() {
             let total = 0;
             carrinho.forEach(produto => {
-                let preco = produto.preco.replace('R$', '').replace(',', '.');
+                let preco = produto.preco.replace('R$', '').replace(',', '.');// sem o replace desse jeito, tava dando erro e nçao reconhecia como função
                 let precoNum = parseFloat(preco);
                 total += produto.quantidade * precoNum;
             });
-            totalCompra.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            totalCompra.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;//o toFixed define quantas casas decimais vão ter depois da virgula
         }
 
         function obterTodosProdutos() {
@@ -118,7 +118,7 @@
             if (carrinho) {
                 carrinho = JSON.parse(carrinho);
             } else {
-                carrinho = []; // Se não houver nada no localStorage, retorna um array vazio
+                carrinho = []; // se não houver nada no localStorage, retorna um array vazio
             }
 
             return carrinho;
